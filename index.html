@@ -35,7 +35,6 @@ button {
     cursor: pointer;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     transition: 0.3s;
-    z-index: -1;       /* Moves balloons behind everything */
 }
 button:hover {
     transform: scale(1.1);
@@ -85,6 +84,7 @@ h1 {
     height: 70px;
     border-radius: 50%;
     animation: float 10s infinite ease-in;
+    z-index: -1;
 }
 @keyframes float {
     from { transform: translateY(0); }
@@ -213,6 +213,7 @@ function typeMessage(){
 
 </body>
 </html>
+
 
 
 
