@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Rachael 💖</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    overflow: hidden;
+    text-align: center;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    color: white;
+}
+
+/* Center EVERYTHING perfectly */
+.container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+/* Button */
+button {
+    padding: 18px 40px;
+    font-size: 20px;
+    border: none;
+    border-radius: 50px;
+    background: white;
+    color: #ff4b6e;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    transition: 0.3s;
+}
+button:hover {
+    transform: scale(1.1);
+    background: #ff4b6e;
+    color: white;
+}
+
+.hidden { display: none; }
+
+/* Countdown */
+#countdown {
+    font-size: 60px;
+    font-weight: bold;
+    animation: pop 1s ease;
+}
+
+/* Glow */
+@keyframes glow {
+    from { text-shadow: 0 0 10px #fff, 0 0 20px #ff4b6e; }
+    to { text-shadow: 0 0 20px #fff, 0 0 40px #ff4b6e; }
+}
+
+h1 {
+    font-size: 45px;
+    animation: glow 2s infinite alternate;
+}
+
+/* Heart Frame */
+.heart-frame {
+    width: 250px;
+    height: 250px;
+    margin: 20px auto;
+}
+.heart-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: 0 0 30px #ff4b6e;
+}
+
+/* Balloons */
+.balloon {
+    position: absolute;
+    bottom: -150px;
+    width: 50px;
+    height: 70px;
+    border-radius: 50%;
+    animation: float 10s infinite ease-in;
+}
+@keyframes float {
+    from { transform: translateY(0); }
+    to { transform: translateY(-110vh); }
+}
+
+/* Sparkles */
+.sparkle {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background: white;
+    border-radius: 50%;
+    animation: sparkle 2s infinite;
+}
+@keyframes sparkle {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="startPage">
+    <button onclick="startCountdown()">Press me for a surprise 🎁</button>
+</div>
+
+<div class="container hidden" id="countdownPage">
+    <div id="countdown">3</div>
+</div>
+
+<div class="container hidden" id="birthdayPage">
+    <h1>🎉 Happy Birthday Rachael 💖</h1>
+
+    <div class="heart-frame">
+        <img src="https://drive.google.com/file/d/1EZ_3D-C2H1VFHxHaAjAaRHiqx-dV6GrY/view?usp=sharing" alt="Rachael">
+    </div>
+
+    <p id="typedText"></p>
+</div>
+
+<!-- 🎵 SWEET BIRTHDAY SONG -->
+<audio id="music" loop>
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_9a7f8e53d2.mp3?filename=happy-birthday-piano-version-110624.mp3" type="audio/mpeg">
+</audio>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<script>
+
+function startCountdown() {
+    document.getElementById("startPage").classList.add("hidden");
+    document.getElementById("countdownPage").classList.remove("hidden");
+
+    let count = 3;
+    let interval = setInterval(() => {
+        count--;
+        document.getElementById("countdown").innerText = count;
+        if(count === 0){
+            clearInterval(interval);
+            showSurprise();
+        }
+    }, 1000);
+}
+
+function showSurprise() {
+    document.getElementById("countdownPage").classList.add("hidden");
+    document.getElementById("birthdayPage").classList.remove("hidden");
+    document.body.style.background = "linear-gradient(135deg, #667eea, #764ba2)";
+
+    document.getElementById("music").play();
+
+    confetti({ particleCount: 200, spread: 120 });
+
+    setInterval(() => {
+        confetti({ particleCount: 60, spread: 90 });
+    }, 3000);
+
+    createBalloons();
+    createSparkles();
+    typeMessage();
+}
+
+function createBalloons(){
+    for(let i=0;i<15;i++){
+        let b=document.createElement("div");
+        b.className="balloon";
+        b.style.left=Math.random()*100+"vw";
+        b.style.background=randomColor();
+        b.style.animationDuration=(6+Math.random()*5)+"s";
+        document.body.appendChild(b);
+    }
+}
+
+function createSparkles(){
+    for(let i=0;i<50;i++){
+        let s=document.createElement("div");
+        s.className="sparkle";
+        s.style.top=Math.random()*100+"vh";
+        s.style.left=Math.random()*100+"vw";
+        document.body.appendChild(s);
+    }
+}
+
+function randomColor(){
+    const colors=["#ff4b6e","#ffcc00","#00e6e6","#ff66ff","#66ff66"];
+    return colors[Math.floor(Math.random()*colors.length)];
+}
+
+function typeMessage(){
+    const text = "Rachael, you are pure magic. ✨ May your life overflow with love, happiness, success, glowing health, and beautiful surprises. The world shines brighter because you're in it. Keep being amazing. 💖 I love you...";
+    let i=0;
+    let speed=50;
+    function typing(){
+        if(i<text.length){
+            document.getElementById("typedText").innerHTML+=text.charAt(i);
+            i++;
+            setTimeout(typing,speed);
+        }
+    }
+    typing();
+}
+</script>
+
+</body>
+</html>
